@@ -6,8 +6,10 @@ require 'net/http'
 require 'net/ftp'
 
 #Credentials for Loopia DNS API
-username = 'registered_api_username@loopiaapi'
-password = 'registered_api_password'
+loopiaUsername = 'registered_api_username@loopiaapi'
+loopiaPassword = 'registered_api_password'
+mikrotikUsername = 'mikrotik_ftp_username'
+mikrotikPassword = 'mikrotik_ftp_password'
 
 global_domain_server_url = "https://api.loopia.se/RPCSERV"
 
@@ -15,7 +17,7 @@ client = XMLRPC::Client.new2(global_domain_server_url)
 
 #If no arguments are provided the script lists registered domain names
 if ARGV.empty?
-  response = client.call("getDomains", username, password)
+  response = client.call("getDomains", loopiaUsername, loopiaPassword)
   response.each do |r|
     puts r['domain']
   end
@@ -53,7 +55,7 @@ else
 
       #Upload script to mikrotik device for automatic execution
       ftp = Net::FTP.new('url_to_mikrotik')
-      ftp.login("mikrotik_ftp_username", "mikrotik_ftp_password")
+      ftp.login(mikrotikUsername, mikrotikPassword)
       ftp.puttextfile("/srv/updateIpsec.auto.rsc")
       ftp.close
 
