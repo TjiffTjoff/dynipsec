@@ -54,7 +54,7 @@ else
       #Upload script to mikrotik device for automatic execution
       ftp = Net::FTP.new('url_to_mikrotik')
       ftp.login("mikrotik_ftp_username", "mikrotik_ftp_password")
-      ftp.puttextfile("./updateIpsec.auto.rsc")
+      ftp.puttextfile("/srv/updateIpsec.auto.rsc")
       ftp.close
 
       system("logger -t LoopiaDns 'Updating IPsec related settings on Mikrotik'")
