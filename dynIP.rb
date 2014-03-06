@@ -48,9 +48,9 @@ else
       file.write("/interface gre set local-address=#{extip} [ find local-address=#{@dnsip} ]\n")
       file.write("/log info \"Done updating gre tunnels\"\n")
       file.write("/log info \"Killing current IPsec connections\"\n")
-      file.write("/ip ipsec remote-peers kill-connections\"\n")
+      file.write("/ip ipsec remote-peers kill-connections\n")
       file.write("/log info \"Flushing installed SA\"\n")
-      file.write("/ip ipsec installed-sa flush\"\n")
+      file.write("/ip ipsec installed-sa flush\n")
       file.close
 
       #Upload script to mikrotik device for automatic execution
@@ -63,7 +63,7 @@ else
     end
 
     #Update the A record for @ (root domain) with new IP
-    record = { 'type' => 'A', 'ttl' => 600, 'rdata' => "#{ip.strip}", 'record_id' => @arecord, 'priority' => 1 } 
+    record = { 'type' => 'A', 'ttl' => 600, 'rdata' => "#{extip}", 'record_id' => @arecord, 'priority' => 1 } 
     response = client.call("updateZoneRecord", username, password, ARGV[0], "@", record)
     system("logger -t LoopiaDns 'Updating #{ARGV[0]}: #{response.inspect}'")
   end
