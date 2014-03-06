@@ -41,8 +41,8 @@ else
       #Generate script to update existing IPsec policies and GRE interfaces with the new IP
       file = File.open("/srv/newip.auto.rsc", "w+")
       file.write("/log info \"Updating ipsec with new IP\"\n")
-      file.write("/ip ipsec policy set src-address=#{extip}/32 sa-src-address=#{extip} [ find src-address=#{@dnsip}/32 ]\n")
-      file.write("/ip ipsec policy set dst-address=#{extip}/32 sa-dst-address=#{extip} [ find dst-address=#{@dnsip}/32 ]\n")
+      file.write("/ip ipsec policy set src-address=#{extip}/32 sa-src-address=#{extip} [ find src-address=#{@dnsip}/32 && dynamic=no ]\n")
+      file.write("/ip ipsec policy set dst-address=#{extip}/32 sa-dst-address=#{extip} [ find dst-address=#{@dnsip}/32 && dynamic=no ]\n")
       file.write("/log info \"Done updating ipsec\"\n")
       file.write("/log info \"Updating gre tunnels with new IP\"\n")
       file.write("/interface gre set local-address=#{extip} [ find local-address=#{@dnsip} ]\n")
